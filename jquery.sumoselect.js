@@ -234,6 +234,7 @@
                     O.is_opened = true;
                     //O.backdrop.show();
                     O.optDiv.addClass('open');
+                    O.CaptionCont.addClass('open');
 
                     // hide options on click outside.
                     $(document).on('click.sumo', function (e) {
@@ -264,6 +265,7 @@
                     var O = this;
                     O.is_opened = false;
                     O.optDiv.removeClass('open').find('ul li.sel').removeClass('sel');
+                    O.CaptionCont.removeClass('open');
                     $(document).off('click.sumo');
                 },
                 setOnOpen: function () {
@@ -287,7 +289,7 @@
                         // setting sel item to visible view.
                         var ul = O.optDiv.find('ul'),
                             st = ul.scrollTop(),
-                            t = sel.position().top + st;                            
+                            t = sel.position().top + st;
                         if(t >= st + ul.height()-sel.outerHeight())
                             ul.scrollTop(t - ul.height() + sel.outerHeight());
                         if(t<st)
@@ -414,7 +416,7 @@
                     O.placeholder = O.placeholder ? O.placeholder : settings.placeholder
 
                     //set display text
-                    O.caption.text(O.placeholder);
+                    O.caption.html(O.placeholder);
 
                     //set the hidden field if post as csv is true.
                     csvField = O.select.find('input.HEMANT123');

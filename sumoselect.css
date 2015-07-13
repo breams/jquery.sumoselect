@@ -34,7 +34,8 @@
 }
 
 .SumoSelect:focus > .CaptionCont,
-.SumoSelect:hover > .CaptionCont {
+.SumoSelect:hover > .CaptionCont,
+.SumoSelect > .CaptionCont.open {
     box-shadow: 0px 0px 2px #7799D0;
     border-color: #7799D0;
 }
@@ -47,6 +48,10 @@
 	font-size: $font-size-lg;
 	line-height: 1.2;
 	margin: 0;
+}
+
+.SumoSelect > .CaptionCont.open {
+    border-bottom: 0;
 }
 
 .SumoSelect > .CaptionCont > span {
@@ -107,8 +112,8 @@
     z-index: -100;
     background: #fff;
     border: 1px solid #ddd;
-    box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.11);
-    border-radius: 3px;
+    box-shadow: 0px 1px 2px #7799D0;
+    border-radius: 0 0 4px 4px;
     overflow: hidden;
 }
 
@@ -117,6 +122,8 @@
     visibility: visible;
     opacity: 1;
     z-index: 1000;
+    border-color: #5e92cc;
+    border-top: 0;
 }
 
 .SumoSelect > .optWrapper > .options {
@@ -125,7 +132,7 @@
     padding: 0px;
     margin: 0px;
     overflow: auto;
-    border-radius: 2px;
+    border-top: 1px solid #dbdbdb;
     /*Set the height of pop up here (only for desktop mode)*/
 
     max-height: 250px;
@@ -135,6 +142,7 @@
 .SumoSelect > .optWrapper.isFloating > .options {
     max-height: 100%;
     box-shadow: 0px 0px 100px #595959;
+    border-top: 0;
 }
 
 .SumoSelect > .optWrapper > .options > li {
@@ -152,12 +160,9 @@
     border-radius: 0px 0px 2px 2px;
 }
 
-.SumoSelect > .optWrapper > .options > li:hover {
-    background-color: #E4E4E4;
-}
-
-.SumoSelect > .optWrapper > .options > li.sel {
-    background-color: #a1c0e4;
+.SumoSelect > .optWrapper > .options > li:hover,
+.SumoSelect > .optWrapper > .options > li.selected {
+    background-color: #dfe9f5;
 }
 
 .SumoSelect > .optWrapper > .options > li label {
@@ -183,6 +188,8 @@
     bottom: 0px;
     margin: auto;
     max-height: 90%;
+    border-radius: 4px;
+    border-top: 1px solid #7799D0;
 }
 /*Hover*/
 /*.SumoSelect:hover > .CaptionCont > label { background-color: #F1F1F1; }*/
@@ -261,6 +268,8 @@
     padding: 12px;
     width: 50%;
     text-align: center;
+    margin: 0;
+    line-height: 1.2;
 }
 
 .SumoSelect > .optWrapper.multiple > .MultiControls > p:hover {
@@ -268,7 +277,7 @@
 }
 
 .SumoSelect > .optWrapper.multiple > .MultiControls > p.btnOk {
-    border-right: 1px solid #DBDBDB;
+    border-right: 1px solid #dbdbdb;
     border-radius: 0px 0px 0px 3px;
 }
 
@@ -297,7 +306,7 @@
 .SumoSelect > .optWrapper.multiple > .options > li.selected span i,
 .SumoSelect .select-all.selected > span i,
 .SumoSelect .select-all.partial > span i {
-    background-color: rgb(17, 169, 17);
+    background-color: #2660ac;
     box-shadow: none;
     border-color: transparent;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAYAAAD+Bd/7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAABMSURBVAiZfc0xDkAAFIPhd2Kr1WRjcAExuIgzGUTIZ/AkImjSofnbNBAfHvzAHjOKNzhiQ42IDFXCDivaaxAJd0xYshT3QqBxqnxeHvhunpu23xnmAAAAAElFTkSuQmCC');

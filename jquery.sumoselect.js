@@ -454,6 +454,7 @@
 
                     //set class isFloating
                     O.optDiv.toggleClass('isFloating', O.is_floating);
+                    O.CaptionCont.toggleClass('isFloating', O.is_floating);
 
                     //remove height if not floating
                     if (!O.is_floating) O.optDiv.css('height', '');

@@ -2,6 +2,9 @@
  * Sumo Select
  *************************************/
 
+.SumoSelect p {
+    margin: 0;
+}
 .SlectBox {
     width: 100%;
     padding: 13px 14px;

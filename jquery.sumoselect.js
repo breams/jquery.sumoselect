@@ -8,7 +8,7 @@
  * Compressor http://refresh-sf.com/
  */
 
-(function ($) {
+(function ($, window, document, navigator) {
 
     'namespace sumo';
     $.fn.SumoSelect = function (options) {
@@ -619,4 +619,4 @@
     };
 
 
-}(jQuery));
+}(jQuery, window, document, navigator));

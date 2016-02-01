@@ -8,7 +8,7 @@
  * Compressor http://refresh-sf.com/
  */
 
-(function ($, window, document, navigator) {
+(function ($, window, document, undefined) {
 
     'namespace sumo';
     $.fn.SumoSelect = function (options) {
@@ -52,74 +52,74 @@
                 Pstate: [],
 
                 createElems: function () {
-                    var O = this;
-                    O.E.wrap('<div class="SumoSelect" tabindex="0">');
-                    O.select = O.E.parent();
-                    O.caption = $('<span></span>');
-                    O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SlectBox').attr('style', O.E.attr('style')).prepend(O.caption);
-                    O.select.append(O.CaptionCont);
+                    var _this = this;
+                    _this.E.wrap('<div class="SumoSelect" tabindex="0">');
+                    _this.select = _this.E.parent();
+                    _this.caption = $('<span></span>');
+                    _this.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SlectBox').attr('style', _this.E.attr('style')).prepend(_this.caption);
+                    _this.select.append(_this.CaptionCont);
 
-                    if(O.E.attr('disabled'))
-                        O.select.addClass('disabled').removeAttr('tabindex');
+                    if(_this.E.attr('disabled'))
+                        _this.select.addClass('disabled').removeAttr('tabindex');
 
                     //if output as csv and is a multiselect.
-                    if (settings.outputAsCSV && O.is_multi && O.E.attr('name')) {
+                    if (settings.outputAsCSV && _this.is_multi && _this.E.attr('name')) {
                         //create a hidden field to store csv value.
-                        O.select.append($('<input class="HEMANT123" type="hidden" />').attr('name', O.E.attr('name')).val(O.getSelStr()));
+                        _this.select.append($('<input class="HEMANT123" type="hidden" />').attr('name', _this.E.attr('name')).val(_this.getSelStr()));
 
                         // so it can not post the original select.
-                        O.E.removeAttr('name');
+                        _this.E.removeAttr('name');
                     }
 
                     //break for mobile rendring.. if forceCustomRendering is false
-                    if (O.isMobile() && !settings.forceCustomRendering) {
-                        O.setNativeMobile();
+                    if (_this.isMobile() && !settings.forceCustomRendering) {
+                        _this.setNativeMobile();
                         return;
                     }
 
                     //hide original select
-                    O.E.hide();
+                    _this.E.hide();
 
                     //## Creating the list...
-                    O.optDiv = $('<div class="optWrapper">');
+                    _this.optDiv = $('<div class="optWrapper">');
 
                     //branch for floating list in low res devices.
-                    O.floatingList();
+                    _this.floatingList();
 
                     //Creating the markup for the available options
                     ul = $('<ul class="options">');
-                    O.optDiv.append(ul);
+                    _this.optDiv.append(ul);
 
                     // Select all functionality
-                    if (settings.selectAll) O.selAll();
+                    if (settings.selectAll) _this.selAll();
 
-                    $(O.E.children('option')).each(function (i, opt) {       // parsing options to li
+                    $(_this.E.children('option')).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
-                        O.createLi(opt);
+                        _this.createLi(opt);
                     });
 
                     //if multiple then add the class multiple and add OK / CANCEL button
-                    if (O.is_multi) O.multiSelelect();
+                    if (_this.is_multi) _this.multiSelelect();
 
-                    O.select.append(O.optDiv);
-                    O.basicEvents();
-                    O.selAllState();
+                    _this.select.append(_this.optDiv);
+                    _this.basicEvents();
+                    _this.selAllState();
                 },
 
                 //## Creates a LI element from a given option and binds events to it
                 //## Adds it to UL at a given index (Last by default)
                 createLi: function (opt,i) {
-                    var O = this;
+                    var _this = this;
 
                     if(!opt.attr('value'))opt.attr('value',opt.val());
 
                     li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
-                    if (O.is_multi) li.prepend('<span><i></i></span>');
+                    if (_this.is_multi) li.prepend('<span><i></i></span>');
 
                     if (opt[0].disabled)
                         li = li.addClass('disabled');
 
-                    O.onOptClick(li);
+                    _this.onOptClick(li);
 
                     if (opt[0].selected)
                         li.addClass('selected');
@@ -127,8 +127,8 @@
                     if (opt.attr('class'))
                         li.addClass(opt.attr('class'));
 
-                    ul = O.optDiv.children('ul.options');
-                    if (typeof i == "undefined")
+                    ul = _this.optDiv.children('ul.options');
+                    if (i === undefined)
                         ul.append(li);
                     else
                         ul.children('li').eq(i).before(li);
@@ -146,63 +146,63 @@
 
                 //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
                 multiSelelect: function () {
-                    var O = this;
-                    O.optDiv.addClass('multiple');
-                    O.okbtn = $('<p class="btnOk">OK</p>').click(function () {
+                    var _this = this;
+                    _this.optDiv.addClass('multiple');
+                    _this.okbtn = $('<p class="btnOk">OK</p>').click(function () {
 
                         //if combined change event is set.
                         if (settings.triggerChangeCombined) {
 
                             //check for a change in the selection.
                             changed = false;
-                            if (O.E.children('option:selected').length != O.Pstate.length) {
+                            if (_this.E.children('option:selected').length != _this.Pstate.length) {
                                 changed = true;
                             }
                             else {
-                                O.E.children('option:selected').each(function () {
-                                    if (O.Pstate.indexOf($(this).val()) < 0) changed = true;
+                                _this.E.children('option:selected').each(function () {
+                                    if (_this.Pstate.indexOf($(this).val()) < 0) changed = true;
                                 });
                             }
 
                             if (changed) {
-                                O.E.trigger('change').trigger('click');
-                                O.setText();
+                                _this.E.trigger('change').trigger('click');
+                                _this.setText();
                             }
                         }
-                        O.hideOpts();
+                        _this.hideOpts();
                     });
-                    O.cancelBtn = $('<p class="btnCancel">Cancel</p>').click(function () {
-                        O._cnbtn();
-                        O.hideOpts();
+                    _this.cancelBtn = $('<p class="btnCancel">Cancel</p>').click(function () {
+                        _this._cnbtn();
+                        _this.hideOpts();
                     });
-                    O.optDiv.append($('<div class="MultiControls">').append(O.okbtn).append(O.cancelBtn));
+                    _this.optDiv.append($('<div class="MultiControls">').append(_this.okbtn).append(_this.cancelBtn));
                 },
 
                 _cnbtn:function(){
-                    var O = this;
+                    var _this = this;
                     //remove all selections
-                        O.E.children('option:selected').each(function () { this.selected = false; });
-                        O.optDiv.find('li.selected').removeClass('selected')
+                        _this.E.children('option:selected').each(function () { this.selected = false; });
+                        _this.optDiv.find('li.selected').removeClass('selected')
 
                         //restore selections from saved state.
-                        for (i = 0; i < O.Pstate.length; i++) {
-                            O.E.children('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
-                            O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
+                        for (var i = 0; i < _this.Pstate.length; i++) {
+                            _this.E.children('option[value="' + _this.Pstate[i] + '"]')[0].selected = true;
+                            _this.optDiv.find('li[data-val="' + _this.Pstate[i] + '"]').addClass('selected');
                         }
-                    O.selAllState();
+                    _this.selAllState();
                 },
 
                 selAll:function(){
-                    var O = this;
-                    if(!O.is_multi)return;
-                    O.chkAll = $('<i>');
-                    O.selAll = $('<p class="select-all"><label>' + settings.selectAlltext + '</label></p>').prepend($('<span></span>').append(O.chkAll));
-                    O.chkAll.on('click',function(){
-                        //O.toggSelAll(!);
-                        O.selAll.toggleClass('selected');
-                        O.optDiv.find('ul.options li').each(function(ix,e){
+                    var _this = this;
+                    if(!_this.is_multi)return;
+                    _this.chkAll = $('<i>');
+                    _this.selAll = $('<p class="select-all"><label>' + settings.selectAlltext + '</label></p>').prepend($('<span></span>').append(_this.chkAll));
+                    _this.chkAll.on('click',function(){
+                        //_this.toggSelAll(!);
+                        _this.selAll.toggleClass('selected');
+                        _this.optDiv.find('ul.options li').each(function(ix,e){
                             e = $(e);
-                            if(O.selAll.hasClass('selected')){
+                            if(_this.selAll.hasClass('selected')){
                                 if(!e.hasClass('selected'))e.trigger('click');
                             }
                             else
@@ -210,74 +210,74 @@
                         });
                     });
 
-                    O.optDiv.prepend(O.selAll);
+                    _this.optDiv.prepend(_this.selAll);
                 },
 
                 selAllState: function () {
-                    var O = this;
+                    var _this = this;
                     if (settings.selectAll) {
                         var sc = 0, vc = 0;
-                        O.optDiv.find('ul.options li').each(function (ix, e) {
+                        _this.optDiv.find('ul.options li').each(function (ix, e) {
                             if ($(e).hasClass('selected')) sc++;
                             if (!$(e).hasClass('disabled')) vc++;
                         });
                         //select all checkbox state change.
-                        if (sc == vc) O.selAll.removeClass('partial').addClass('selected');
-                        else if (sc == 0) O.selAll.removeClass('selected partial');
-                        else O.selAll.addClass('partial')//.removeClass('selected');
+                        if (sc == vc) _this.selAll.removeClass('partial').addClass('selected');
+                        else if (sc == 0) _this.selAll.removeClass('selected partial');
+                        else _this.selAll.addClass('partial')//.removeClass('selected');
                     }
                 },
 
                 showOpts: function () {
-                    var O = this;
-                    if (O.E.attr('disabled')) return; // if select is disabled then retrun
-                    O.is_opened = true;
-                    //O.backdrop.show();
-                    O.optDiv.addClass('open');
-                    O.CaptionCont.addClass('open');
+                    var _this = this;
+                    if (_this.E.attr('disabled')) return; // if select is disabled then retrun
+                    _this.is_opened = true;
+                    //_this.backdrop.show();
+                    _this.optDiv.addClass('open');
+                    _this.CaptionCont.addClass('open');
 
                     // hide options on click outside.
                     $(document).on('click.sumo', function (e) {
-                            if (!O.select.is(e.target)                  // if the target of the click isn't the container...
-                                && O.select.has(e.target).length === 0){ // ... nor a descendant of the container
-//                               if (O.is_multi && settings.okCancelInMulti)
-//                                    O._cnbtn();
-//                                O.hideOpts();
-								if(!O.is_opened)return;
-								O.hideOpts();
-								if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
+                            if (!_this.select.is(e.target)                  // if the target of the click isn't the container...
+                                && _this.select.has(e.target).length === 0){ // ... nor a descendant of the container
+//                               if (_this.is_multi && settings.okCancelInMulti)
+//                                    _this._cnbtn();
+//                                _this.hideOpts();
+								if(!_this.is_opened)return;
+								_this.hideOpts();
+								if (_this.is_multi && settings.okCancelInMulti)_this._cnbtn();
                             }
                     });
 
-                    if (O.is_floating) {
-                        H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
-                        if (O.is_multi) H = H + parseInt(O.optDiv.css('padding-bottom'));
-                        O.optDiv.css('height', H);
+                    if (_this.is_floating) {
+                        H = _this.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
+                        if (_this.is_multi) H = H + parseInt(_this.optDiv.css('padding-bottom'));
+                        _this.optDiv.css('height', H);
                     }
 
                     //maintain state when ok/cancel buttons are available.
-                    if (O.is_multi && (O.is_floating || settings.okCancelInMulti)) {
-                        O.Pstate = [];
-                        O.E.children('option:selected').each(function () { O.Pstate.push($(this).val()); });
+                    if (_this.is_multi && (_this.is_floating || settings.okCancelInMulti)) {
+                        _this.Pstate = [];
+                        _this.E.children('option:selected').each(function () { _this.Pstate.push($(this).val()); });
                     }
                 },
                 hideOpts: function () {
-                    var O = this;
-                    O.is_opened = false;
-                    O.optDiv.removeClass('open').find('ul li.sel').removeClass('sel');
-                    O.CaptionCont.removeClass('open');
+                    var _this = this;
+                    _this.is_opened = false;
+                    _this.optDiv.removeClass('open').find('ul li.sel').removeClass('sel');
+                    _this.CaptionCont.removeClass('open');
                     $(document).off('click.sumo');
                 },
                 setOnOpen: function () {
-                    var O = this;
-                    var li = O.optDiv.find('ul li').eq(O.E[0].selectedIndex);
+                    var _this = this;
+                    var li = _this.optDiv.find('ul li').eq(_this.E[0].selectedIndex);
                     li.addClass('sel');
-                    O.showOpts();
+                    _this.showOpts();
                 },
                 nav: function (up) {
-                    var O = this, c;
-                    var sel = O.optDiv.find('ul li.sel');
-                    if (O.is_opened && sel.length) {
+                    var _this = this, c;
+                    var sel = _this.optDiv.find('ul li.sel');
+                    if (_this.is_opened && sel.length) {
                         if (up)
                             c = sel.prevAll('li:not(.disabled)');
                         else
@@ -287,7 +287,7 @@
                         sel = c.first().addClass('sel');
 
                         // setting sel item to visible view.
-                        var ul = O.optDiv.find('ul'),
+                        var ul = _this.optDiv.find('ul'),
                             st = ul.scrollTop(),
                             t = sel.position().top + st;
                         if(t >= st + ul.height()-sel.outerHeight())
@@ -297,46 +297,46 @@
 
                     }
                     else
-                        O.setOnOpen();
+                        _this.setOnOpen();
                 },
 
                 basicEvents: function () {
-                    var O = this;
-                    O.CaptionCont.click(function (evt) {
-                        O.E.trigger('click');
-                        if (O.is_opened) O.hideOpts(); else O.showOpts();
+                    var _this = this;
+                    _this.CaptionCont.click(function (evt) {
+                        _this.E.trigger('click');
+                        if (_this.is_opened) _this.hideOpts(); else _this.showOpts();
                         evt.stopPropagation();
                     });
 
-                  /*  O.select.on('blur focusout', function () {
-                        if(!O.is_opened)return;
-                        //O.hideOpts();
-                        O.hideOpts();
+                  /*  _this.select.on('blur focusout', function () {
+                        if(!_this.is_opened)return;
+                        //_this.hideOpts();
+                        _this.hideOpts();
 
-                    if (O.is_multi && settings.okCancelInMulti)
-                         O._cnbtn();
+                    if (_this.is_multi && settings.okCancelInMulti)
+                         _this._cnbtn();
                     })*/
-                        O.select.on('keydown', function (e) {
+                        _this.select.on('keydown', function (e) {
                             switch (e.which) {
                                 case 38: // up
-                                    O.nav(true);
+                                    _this.nav(true);
                                     break;
 
                                 case 40: // down
-                                    O.nav(false);
+                                    _this.nav(false);
                                     break;
 
                                 case 32: // space
                                 case 13: // enter
-                                    if (O.is_opened)
-                                        O.optDiv.find('ul li.sel').trigger('click');
+                                    if (_this.is_opened)
+                                        _this.optDiv.find('ul li.sel').trigger('click');
                                     else
-                                        O.setOnOpen();
+                                        _this.setOnOpen();
                                     break;
 								case 9:	 //tab
                                 case 27: // esc
-                                     if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
-                                    O.hideOpts();
+                                     if (_this.is_multi && settings.okCancelInMulti)_this._cnbtn();
+                                    _this.hideOpts();
                                     return;
 
                                 default:
@@ -346,179 +346,179 @@
                         });
 
                     $(window).on('resize.sumo', function () {
-                        O.floatingList();
+                        _this.floatingList();
                     });
                 },
 
                 onOptClick: function (li) {
-                    var O = this;
+                    var _this = this;
                     li.click(function () {
                         var li = $(this);
                         if(li.hasClass('disabled'))return;
                         txt = "";
-                        if (O.is_multi) {
+                        if (_this.is_multi) {
                             li.toggleClass('selected');
-                            O.E.children('option[value="' + li.data('val') + '"]')[0].selected = li.hasClass('selected');
+                            _this.E.children('option[value="' + li.data('val') + '"]')[0].selected = li.hasClass('selected');
 
-                            O.selAllState();
+                            _this.selAllState();
                         }
                         else {
                             li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
                             li.toggleClass('selected');
-                            O.E.val(li.attr('data-val'));   //set the value of select element
+                            _this.E.val(li.attr('data-val'));   //set the value of select element
                         }
 
                         //branch for combined change event.
-                        if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
-                            O.setText();
-                            O.E.trigger('change').trigger('click');
+                        if (!(_this.is_multi && settings.triggerChangeCombined && (_this.is_floating || settings.okCancelInMulti))) {
+                            _this.setText();
+                            _this.E.trigger('change').trigger('click');
                         }
 
-                        if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
+                        if (!_this.is_multi) _this.hideOpts(); //if its not a multiselect then hide on single select.
                     });
                 },
 
                 setText: function () {
-                    var O = this;
-                    O.placeholder = "";
-                    if (O.is_multi) {
-                        sels = O.E.children(':selected').not(':disabled'); //selected options.
+                    var _this = this;
+                    _this.placeholder = "";
+                    if (_this.is_multi) {
+                        sels = _this.E.children(':selected').not(':disabled'); //selected options.
 
-                        for (i = 0; i < sels.length; i++) {
+                        for (var i = 0; i < sels.length; i++) {
                             if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
-                                O.placeholder = settings.captionFormat.replace('{0}', sels.length);
-                                //O.placeholder = i + '+ Selected';
+                                _this.placeholder = settings.captionFormat.replace('{0}', sels.length);
+                                //_this.placeholder = i + '+ Selected';
                                 break;
                             }
-                            else O.placeholder += $(sels[i]).text() + ", ";
+                            else _this.placeholder += $(sels[i]).text() + ", ";
                         }
-                        O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
+                        _this.placeholder = _this.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                     }
                     else {
-                        O.placeholder = O.E.children(':selected').not(':disabled').text();
+                        _this.placeholder = _this.E.children(':selected').not(':disabled').text();
                     }
 
                     is_placeholder = false;
 
-                    if (!O.placeholder) {
+                    if (!_this.placeholder) {
 
                         is_placeholder = true;
 
-                        O.placeholder = O.E.attr('placeholder');
-                        if (!O.placeholder)                  //if placeholder is there then set it
+                        _this.placeholder = _this.E.attr('placeholder');
+                        if (!_this.placeholder)                  //if placeholder is there then set it
                         {
-                            O.placeholder = O.E.children('option:disabled:selected').text();
-                            //if (!O.placeholder && settings.placeholder === 'Select Here')
-                            //    O.placeholder = O.E.val();
+                            _this.placeholder = _this.E.children('option:disabled:selected').text();
+                            //if (!_this.placeholder && settings.placeholder === 'Select Here')
+                            //    _this.placeholder = _this.E.val();
                         }
                     }
 
-                    O.placeholder = O.placeholder ? O.placeholder : settings.placeholder
+                    _this.placeholder = _this.placeholder ? _this.placeholder : settings.placeholder
 
                     //set display text
-                    O.caption.html(O.placeholder);
+                    _this.caption.html(_this.placeholder);
 
                     //set the hidden field if post as csv is true.
-                    csvField = O.select.find('input.HEMANT123');
-                    if (csvField.length) csvField.val(O.getSelStr());
+                    csvField = _this.select.find('input.HEMANT123');
+                    if (csvField.length) csvField.val(_this.getSelStr());
 
                     //add class placeholder if its a placeholder text.
-                    if (is_placeholder) O.caption.addClass('placeholder'); else O.caption.removeClass('placeholder');
-                    return O.placeholder;
+                    if (is_placeholder) _this.caption.addClass('placeholder'); else _this.caption.removeClass('placeholder');
+                    return _this.placeholder;
                 },
 
                 isMobile: function () {
 
                     // Adapted from http://www.detectmobilebrowsers.com
-                    var ua = navigator.userAgent || navigator.vendor || window.opera;
+                    var ua = (window.navigator.userAgent || "").toLowerCase();
 
-                    // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
-                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.toString().toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
+                    // Checks for iOS, Android, Blackberry, Opera Mini, and Windows Mobile devices
+                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return true;
                     return false;
                 },
 
                 setNativeMobile: function () {
-                    var O = this;
-                    O.E.addClass('SelectClass')//.css('height', O.select.outerHeight());
-					O.mob = true;
-                    O.E.change(function () {
-                        O.setText();
+                    var _this = this;
+                    _this.E.addClass('SelectClass')//.css('height', _this.select.outerHeight());
+					_this.mob = true;
+                    _this.E.change(function () {
+                        _this.setText();
                     });
                 },
 
                 floatingList: function () {
-                    var O = this;
+                    var _this = this;
                     //called on init and also on resize.
-                    //O.is_floating = true if window width is < specified float width
-                    O.is_floating = $(window).width() <= settings.floatWidth;
+                    //_this.is_floating = true if window width is < specified float width
+                    _this.is_floating = $(window).width() <= settings.floatWidth;
 
                     //set class isFloating
-                    O.optDiv.toggleClass('isFloating', O.is_floating);
-                    O.CaptionCont.toggleClass('isFloating', O.is_floating);
+                    _this.optDiv.toggleClass('isFloating', _this.is_floating);
+                    _this.CaptionCont.toggleClass('isFloating', _this.is_floating);
 
                     //remove height if not floating
-                    if (!O.is_floating) O.optDiv.css('height', '');
+                    if (!_this.is_floating) _this.optDiv.css('height', '');
 
                     //toggle class according to okCancelInMulti flag only when it is not floating
-                    O.optDiv.toggleClass('okCancelInMulti', settings.okCancelInMulti && !O.is_floating);
+                    _this.optDiv.toggleClass('okCancelInMulti', settings.okCancelInMulti && !_this.is_floating);
                 },
 
                 //HELPERS FOR OUTSIDERS
                 // validates range of given item operations
                 vRange: function (i) {
-                    var O = this;
-                    opts = O.E.children('option');
+                    var _this = this;
+                    opts = _this.E.children('option');
                     if (opts.length <= i || i < 0) throw "index out of bounds"
-                    return O;
+                    return _this;
                 },
 
                 //toggles selection on c as boolean.
                 toggSel: function (c, i) {
-                    var O = this.vRange(i);
-                    if (O.E.children('option')[i].disabled) return;
-                    O.E.children('option')[i].selected = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
-                    O.setText();
+                    var _this = this.vRange(i);
+                    if (_this.E.children('option')[i].disabled) return;
+                    _this.E.children('option')[i].selected = c;
+                    if(!_this.mob)_this.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
+                    _this.setText();
                 },
 
                 //toggles disabled on c as boolean.
                 toggDis: function (c, i) {
-                    var O = this.vRange(i);
-                    O.E.children('option')[i].disabled = c;
-                    if(c)O.E.children('option')[i].selected = false;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c).removeClass('selected');
-                    O.setText();
+                    var _this = this.vRange(i);
+                    _this.E.children('option')[i].disabled = c;
+                    if(c)_this.E.children('option')[i].selected = false;
+                    if(!_this.mob)_this.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c).removeClass('selected');
+                    _this.setText();
                 },
 
                 // toggle disable/enable on complete select control
                 toggSumo: function(val) {
-                    var O = this;
-                    O.enabled = val;
-                    O.select.toggleClass('disabled', val);
+                    var _this = this;
+                    _this.enabled = val;
+                    _this.select.toggleClass('disabled', val);
 
                     if (val) {
-                        O.E.attr('disabled', 'disabled');
-                        O.select.removeAttr('tabindex');
+                        _this.E.attr('disabled', 'disabled');
+                        _this.select.removeAttr('tabindex');
                     }
                     else{
-                        O.E.removeAttr('disabled');
-                        O.select.attr('tabindex','0');
+                        _this.E.removeAttr('disabled');
+                        _this.select.attr('tabindex','0');
                     }
 
-                    return O;
+                    return _this;
                 },
 
                 //toggles alloption on c as boolean.
                 toggSelAll: function (c) {
-                    var O = this;
-                    O.E.find('option').each(function (ix, el) {
-                        if (O.E.find('option')[$(this).index()].disabled) return;
-                        O.E.find('option')[$(this).index()].selected = c;
-                        if (!O.mob)
-							O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
-                        O.setText();
+                    var _this = this;
+                    _this.E.find('option').each(function (ix, el) {
+                        if (_this.E.find('option')[$(this).index()].disabled) return;
+                        _this.E.find('option')[$(this).index()].selected = c;
+                        if (!_this.mob)
+							_this.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
+                        _this.setText();
                     });
-                    if(!O.mob && settings.selectAll)O.selAll.removeClass('partial').toggleClass('selected',c);
+                    if(!_this.mob && settings.selectAll)_this.selAll.removeClass('partial').toggleClass('selected',c);
                 },
 
                 /* outside accessibility options
@@ -530,38 +530,38 @@
                 },
 
                 unload: function () {
-                    var O = this;
-                    O.select.before(O.E);
-                    O.E.show();
+                    var _this = this;
+                    _this.select.before(_this.E);
+                    _this.E.show();
 
-                    if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
-                        O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
+                    if (settings.outputAsCSV && _this.is_multi && _this.select.find('input.HEMANT123').length) {
+                        _this.E.attr('name', _this.select.find('input.HEMANT123').attr('name')); // restore the name;
                     }
-                    O.select.remove();
+                    _this.select.remove();
                     delete selObj.sumo;
                     return selObj;
                 },
 
                 //## add a new option to select at a given index.
                 add: function (val, txt, i) {
-                    if (typeof val == "undefined") throw "No value to add"
+                    if (val === undefined) throw "No value to add"
 
-                    var O = this;
-                    opts=O.E.children('option')
+                    var _this = this;
+                    opts=_this.E.children('option')
                     if (typeof txt == "number") { i = txt; txt = val; }
-                    if (typeof txt == "undefined") { txt = val; }
+                    if (txt === undefined) { txt = val; }
 
                     opt = $("<option></option>").val(val).html(txt);
 
                     if (opts.length < i) throw "index out of bounds"
 
-                    if (typeof i == "undefined" || opts.length == i) { // add it to the last if given index is last no or no index provides.
-                        O.E.append(opt);
-                        if(!O.mob)O.createLi(opt);
+                    if (i === undefined || opts.length == i) { // add it to the last if given index is last no or no index provides.
+                        _this.E.append(opt);
+                        if(!_this.mob)_this.createLi(opt);
                     }
                     else {
                         opts.eq(i).before(opt);
-                        if(!O.mob)O.createLi(opt, i);
+                        if(!_this.mob)_this.createLi(opt, i);
                     }
 
                     return selObj;
@@ -569,10 +569,10 @@
 
                 //## removes an item at a given index.
                 remove: function (i) {
-                    var O = this.vRange(i);
-                    O.E.children('option').eq(i).remove();
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).remove();
-                    O.setText();
+                    var _this = this.vRange(i);
+                    _this.E.children('option').eq(i).remove();
+                    if(!_this.mob)_this.optDiv.find('ul.options li').eq(i).remove();
+                    _this.setText();
                 },
 
                 //## Select an item at a given index.
@@ -604,10 +604,10 @@
 
 
                 init: function () {
-                    var O = this;
-                    O.createElems();
-                    O.setText();
-                    return O
+                    var _this = this;
+                    _this.createElems();
+                    _this.setText();
+                    return _this
                 }
 
             };
@@ -619,4 +619,4 @@
     };
 
 
-}(jQuery, window, document, navigator));
+}(jQuery, window, document));

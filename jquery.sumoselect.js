@@ -32,8 +32,8 @@
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
 
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
-            searchText: 'Search...',      // placeholder for search input
-            noMatch: 'No matches for "{0}"',
+            // searchText: 'Search...',      // placeholder for search input
+            // noMatch: 'No matches for "{0}"',
             prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
             locale: ['OK', 'Cancel', 'Select All']  // all text that is used. don't change the index.
         }, options);
@@ -61,7 +61,7 @@
                     O.E.wrap('<div class="SumoSelect" tabindex="0">');
                     O.select = O.E.parent();
                     O.caption = $('<span>');
-                    O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SelectBox').attr('style', O.E.attr('style')).prepend(O.caption);
+                    O.CaptionCont = $('<p class="CaptionCont"><label><i/></label></p>').addClass('SelectBox').attr('style', O.E.attr('style')).prepend(O.caption);
                     O.select.append(O.CaptionCont);
 
                     if(O.E.attr('disabled'))
@@ -70,7 +70,7 @@
                     //if output as csv and is a multiselect.
                     if (settings.outputAsCSV && O.is_multi && O.E.attr('name')) {
                         //create a hidden field to store csv value.
-                        O.select.append($('<input class="HEMANT123" type="hidden" />').attr('name', O.E.attr('name')).val(O.getSelStr()));
+                        O.select.append($('<input class="HEMANT123" type="hidden"/>').attr('name', O.E.attr('name')).val(O.getSelStr()));
 
                         // so it can not post the original select.
                         O.E.removeAttr('name');
@@ -95,10 +95,10 @@
                     O.optDiv.append('<ul class="options">');
 
                     // Select all functionality
-                    if(settings.selectAll) O.selAll();
+                    // if(settings.selectAll) O.selAll();
 
                     // search functionality
-                    if(settings.search) O.Search();
+                    // if(settings.search) O.Search();
 
                     $(O.E.children('option')).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
@@ -110,7 +110,7 @@
 
                     O.select.append(O.optDiv);
                     O.basicEvents();
-                    O.selAllState();
+                    // O.selAllState();
                 },
 
                 //## Creates a LI element from a given option and binds events to it
@@ -121,7 +121,7 @@
                     if(!opt.attr('value'))opt.attr('value',opt.val());
 
                     var li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
-                    if (O.is_multi) li.prepend('<span><i></i></span>');
+                    if (O.is_multi) li.prepend('<span><i/></span>');
 
                     if (opt[0].disabled)
                         li = li.addClass('disabled');
@@ -134,7 +134,7 @@
                     if (opt.attr('class'))
                         li.addClass(opt.attr('class'));
 
-                    var ul = O.optDiv.children('ul.options');
+                    var ul = O.optDiv.children('.options');
                     if (i === undefined)
                         ul.append(li);
                     else
@@ -155,7 +155,7 @@
                 multiSelelect: function () {
                     var O = this;
                     O.optDiv.addClass('multiple');
-                    O.okbtn = $('<p class="btnOk">'+settings.locale[0]+'</p>').click(function () {
+                    O.okBtn = $('<p class="btnOk" tabindex="-1">'+settings.locale[0]+'</p>').click(function () {
 
                         //if combined change event is set.
                         if (settings.triggerChangeCombined) {
@@ -179,28 +179,28 @@
                         }
                         O.hideOpts();
                     });
-                    O.cancelBtn = $('<p class="btnCancel">'+settings.locale[1]+'</p>').click(function () {
+                    O.cancelBtn = $('<p class="btnCancel" tabindex="-1">'+settings.locale[1]+'</p>').click(function () {
                         O._cnbtn();
                         O.hideOpts();
                     });
-                    O.optDiv.append($('<div class="MultiControls">').append(O.okbtn).append(O.cancelBtn));
+                    O.optDiv.append($('<div class="MultiControls">').append(O.okBtn).append(O.cancelBtn));
                 },
 
                 _cnbtn:function(){
                     var O = this;
                     //remove all selections
-                        O.E.children('option:selected').each(function () { this.selected = false; });
-                        O.optDiv.find('li.selected').removeClass('selected')
+                    O.E.children('option:selected').each(function () { this.selected = false; });
+                    O.optDiv.find('.selected').removeClass('selected')
 
-                        //restore selections from saved state.
-                        for (var i = 0; i < O.Pstate.length; i++) {
-                            O.E.children('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
-                            O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
-                        }
-                    O.selAllState();
+                    //restore selections from saved state.
+                    for (var i = 0; i < O.Pstate.length; i++) {
+                        O.E.children('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
+                        O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
+                    }
+                    // O.selAllState();
                 },
 
-                selAll:function(){
+                /*selAll:function(){
                     var O = this;
                     if(!O.is_multi)return;
                     O.chkAll = $('<i>');
@@ -208,7 +208,7 @@
 					O.chkAll.on('click',function(){
 						//O.toggSelAll(!);
 						O.selAll.toggleClass('selected');
-						O.optDiv.find('ul.options li').not('.hidden').each(function(ix,e){
+						O.optDiv.find('li').not('.hidden').each(function(ix,e){
 							e = $(e);
 							if(O.selAll.hasClass('selected')){
 								if(!e.hasClass('selected'))e.trigger('click');
@@ -219,10 +219,10 @@
 					});
 
                     O.optDiv.prepend(O.selAll);
-                },
+                },*/
 
                 // search module (can be removed if not required.)
-                Search: function(){
+                /*Search: function(){
                     var O = this,
                         cc = O.CaptionCont.addClass('search'),
                         P = $('<p class="no-match">');
@@ -235,7 +235,7 @@
                     O.optDiv.children('ul').after(P);
 
                     O.ftxt.on('keyup.sumo',function(){
-                        var hid = O.optDiv.find('ul.options li').each(function(ix,e){
+                        var hid = O.optDiv.find('li').each(function(ix,e){
                             e = $(e);
                             if(e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) > -1)
                                 e.removeClass('hidden');
@@ -247,13 +247,13 @@
 
                         O.selAllState();
                     });
-                },
+                },*/
 
-                selAllState: function () {
+                /*selAllState: function () {
                     var O = this;
                     if (settings.selectAll) {
                         var sc = 0, vc = 0;
-                        O.optDiv.find('ul.options li').not('.hidden').each(function (ix, e) {
+                        O.optDiv.find('li').not('.hidden').each(function (ix, e) {
                             if ($(e).hasClass('selected')) sc++;
                             if (!$(e).hasClass('disabled')) vc++;
                         });
@@ -262,7 +262,7 @@
                         else if (sc == 0) O.selAll.removeClass('selected partial');
                         else O.selAll.addClass('partial')//.removeClass('selected');
                     }
-                },
+                },*/
 
                 showOpts: function () {
                     var O = this;
@@ -270,7 +270,7 @@
                     O.is_opened = true;
                     O.select.addClass('open');
 
-                    if(O.ftxt)O.ftxt.focus();
+                    // if(O.ftxt)O.ftxt.focus();
 
                     // hide options on click outside.
                     $(document).on('click.sumo', function (e) {
@@ -293,26 +293,37 @@
                         O.Pstate = [];
                         O.E.children('option:selected').each(function () { O.Pstate.push($(this).val()); });
                     }
+
+                    var sel = O.optDiv.find('.sel,.selected')[0];
+                    if (sel) {
+                        var ul = sel.parentNode;
+                        var ust = ul.scrollTop;
+                        var sot = sel.offsetTop;
+                        var sch = sel.clientHeight;
+                        if ( ( ust > sot ) || ( sot > ust + ul.clientHeight - sch ) ) {
+                            ul.scrollTop = sot - (sch / 2);
+                        }
+                    }
                 },
                 hideOpts: function () {
                     var O = this;
                     if(O.is_opened){
                         O.is_opened = false;
-                        O.select.removeClass('open').find('ul li.sel').removeClass('sel');
+                        O.select.removeClass('open').find('.sel').removeClass('sel');
                         $(document).off('click.sumo');
                         O.select.focus();
                     }
                  },
                 setOnOpen: function () {
                     var O = this,
-                        li = O.optDiv.find('ul li:not(.hidden)').eq(settings.search?0:O.E[0].selectedIndex);
-                    O.optDiv.find('ul li.sel').removeClass('sel');
+                        li = O.optDiv.find('li:not(.disabled,.hidden)').eq( (settings.search || O.E[0].selectedIndex < 1) ? 0 : O.E[0].selectedIndex - 1 );
+                    O.optDiv.find('.sel').removeClass('sel');
                     li.addClass('sel');
                     O.showOpts();
                 },
                 nav: function (up) {
-                    var O = this, c, s='li:not(.disabled, .hidden)',
-                    sel = O.optDiv.find('ul li.sel:not(.hidden)');
+                    var O = this, c, s='li:not(.disabled,.hidden)',
+                    sel = O.optDiv.find('.sel:not(.hidden)');
                     if (O.is_opened && sel.length) {
                         if (up)
                             c = sel.prevAll(s);
@@ -340,7 +351,12 @@
                     var O = this;
                     O.CaptionCont.click(function (evt) {
                         O.E.trigger('click');
-                        if (O.is_opened) O.hideOpts(); else O.showOpts();
+                        if (O.is_opened) {
+                            if(O.is_multi && settings.okCancelInMulti)O._cnbtn();
+                            O.hideOpts();
+                        } else {
+                            O.showOpts();
+                        }
                         evt.stopPropagation();
                     });
 
@@ -355,16 +371,46 @@
                                     break;
 
                                 case 32: // space
-                                    if(O.ftxt.is(e.target))return;
+                                    // if(O.ftxt&&O.ftxt.is(e.target))return;
                                 case 13: // enter
-                                    if (O.is_opened)
-                                        O.optDiv.find('ul li.sel').trigger('click');
-                                    else
+                                    if (O.is_opened) {
+                                        if (O.is_multi&&settings.okCancelInMulti) {
+                                            if (O.okBtn.is(e.target)) {
+                                                O.okBtn.click();
+                                                e.preventDefault();
+                                                return;
+                                            }
+                                            if (O.cancelBtn.is(e.target)) {
+                                                O._cnbtn();
+                                                O.hideOpts();
+                                                e.preventDefault();
+                                                return;
+                                            }
+                                        }
+                                        O.optDiv.find('.sel').click();
+                                    } else {
                                         O.setOnOpen();
+                                    }
                                     break;
-				case 9:	 //tab
+                                case 9:  // tab
+                                    if ( !O.is_opened ) {
+                                        return;
+                                    }
+                                    if (O.is_multi && settings.okCancelInMulti) {
+                                        if ( (O.E.parent().is(e.target) && !e.shiftKey) || (O.cancelBtn.is(e.target) && e.shiftKey) ) {
+                                            O.okBtn.focus();
+                                            e.preventDefault();
+                                            return;
+                                        } else if ( O.okBtn.is(e.target) ) {
+                                            if (!e.shiftKey) {
+                                                O.cancelBtn.focus();
+                                                e.preventDefault();
+                                            }
+                                            return;
+                                        }
+                                    }
                                 case 27: // esc
-                                     if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
+                                    if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
                                     O.hideOpts();
                                     return;
 
@@ -389,10 +435,10 @@
                             li.toggleClass('selected');
                             O.E.children('option[value="' + li.data('val') + '"]')[0].selected = li.hasClass('selected');
 
-                            O.selAllState();
+                            // O.selAllState();
                         }
                         else {
-                            li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
+                            li.parent().find('.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
                             li.toggleClass('selected');
                             O.E.val(li.attr('data-val'));   //set the value of select element
                         }
@@ -411,7 +457,7 @@
                     var O = this;
                     O.placeholder = "";
                     if (O.is_multi) {
-                        sels = O.E.children(':selected').not(':disabled'); //selected options.
+                        var sels = O.E.children(':selected').not(':disabled'); //selected options.
 
                         for (var i = 0; i < sels.length; i++) {
                                 if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
@@ -509,7 +555,7 @@
                     var O = this.vRange(i);
                     if (O.E.children('option')[i].disabled) return;
                     O.E.children('option')[i].selected = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
+                    if(!O.mob)O.optDiv.find('li').eq(i).toggleClass('selected',c);
                     O.setText();
                 },
 
@@ -518,7 +564,7 @@
                     var O = this.vRange(i);
                     O.E.children('option')[i].disabled = c;
                     if(c)O.E.children('option')[i].selected = false;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c).removeClass('selected');
+                    if(!O.mob)O.optDiv.find('li').eq(i).toggleClass('disabled', c).removeClass('selected');
                     O.setText();
                 },
 
@@ -547,10 +593,10 @@
                         if (O.E.find('option')[$(this).index()].disabled) return;
                         O.E.find('option')[$(this).index()].selected = c;
                         if (!O.mob)
-							O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
+							O.optDiv.find('li').eq($(this).index()).toggleClass('selected', c);
                         O.setText();
                     });
-                    if(!O.mob && (settings.selectAll || settings.search))O.selAll.removeClass('partial').toggleClass('selected',c);
+                    // if(!O.mob && (settings.selectAll || settings.search))O.selAll.removeClass('partial').toggleClass('selected',c);
                 },
 
                 /* outside accessibility options
@@ -583,7 +629,7 @@
                     if (typeof txt == "number") { i = txt; txt = val; }
                     if (txt === undefined) { txt = val; }
 
-                    opt = $("<option></option>").val(val).html(txt);
+                    opt = $("<option/>").val(val).html(txt);
 
                     if (opts.length < i) throw "index out of bounds"
 
@@ -603,7 +649,7 @@
                 remove: function (i) {
                     var O = this.vRange(i);
                     O.E.children('option').eq(i).remove();
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).remove();
+                    if(!O.mob)O.optDiv.find('li').eq(i).remove();
                     O.setText();
                 },
 

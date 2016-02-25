@@ -115,9 +115,10 @@
     right: 0;
     bottom: 0;
     width: 30px;
-}
-.CaptionCont.open label {
-    top: -2px;
+
+    .SumoSelect.open & {
+        top: -2px;
+    }
 }
 
 /* .SumoSelect > .CaptionCont > label > i {
@@ -156,7 +157,7 @@
     visibility: visible;
     opacity: 1;
     z-index: 50;
-    border-color: #5e92cc;
+    border-color: $lighter-blue;
     border-top: 0;
 
     &.isFloating {
@@ -200,13 +201,13 @@
     border-radius: 0;
 }
 
-.optWrapper li:hover, .optWrapper li.sel {
-    background: mix(#5e92cc, #fff, 5%);
-    color: #2660ac;
+.optWrapper li:hover, .optWrapper .sel {
+    background: mix($lighter-blue, #fff, 5%);
+    color: $mid-blue;
 }
 
 .optWrapper li.selected {
-    background: mix(#5e92cc, #fff, 20%);
+    background: mix($lighter-blue, #fff, 20%);
 }
 
 .optWrapper li label {
@@ -237,7 +238,7 @@
 
 /*disabled state*/
 
-.optWrapper li.disabled {
+.optWrapper .disabled {
     background-color: inherit;
     pointer-events: none;
     @include not-old-ie() {
@@ -246,16 +247,17 @@
     @include old-ie() {
         color: mix(#444444, #fff, 50%);
     }
+
+    & label {
+        cursor: default;
+    }
+
+    & * {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        opacity: 0.5;
+    }
 }
 
-.optWrapper li.disabled label {
-    cursor: default;
-}
-
-.optWrapper li.disabled * {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-    opacity: 0.5;
-}
 
 /*styling for multiple select*/
 
@@ -265,7 +267,7 @@
 }
 
 /* .optWrapper.multiple li span, .select-all span { */
-.optWrapper.multiple li span {
+.multiple li span {
     position: absolute;
     display: block;
     width: 30px;
@@ -297,7 +299,7 @@
     border-radius: 0 0 3px 3px;
 }
 
-.optWrapper.multiple.isFloating .MultiControls {
+.multiple.isFloating .MultiControls {
     display: block;
     margin-top: 5px;
     position: absolute;
@@ -305,7 +307,7 @@
     width: 100%;
 }
 
-.optWrapper.multiple.okCancelInMulti .MultiControls {
+.multiple.okCancelInMulti .MultiControls {
     @extend %display-block-common;
 
     p {
@@ -313,7 +315,7 @@
     }
 }
 
-.optWrapper.multiple .MultiControls p {
+.multiple .MultiControls p {
     display: inline-block;
     cursor: pointer;
     padding: 12px;
@@ -321,28 +323,33 @@
     text-align: center;
     margin: 0;
     line-height: 1.2;
-
-    &:hover {
-        background: #f1f1f1;
-    }
+}
+.MultiControls p {
     &.btnOk {
         border-right: 1px solid #dddddd;
-        border-radius: 0 0 0 3px;
+        border-radius: 0 0 0 2px;
     }
     &.btnCancel {
-        border-radius: 0 0 3px 0;
+        border-radius: 0 0 2px 0;
+    }
+    &:hover, &:focus {
+        background: mix($lighter-blue, #fff, 20%);
+        outline: 0;
+    }
+    &:focus {
+        box-shadow: inset 0 0 0 1px $lighter-blue;
     }
 }
 
 /*styling for only multiple select on popup mode*/
 
-.optWrapper.multiple.isFloating {
+.multiple.isFloating {
     padding-bottom: 43px;
 }
 
 /* .optWrapper.multiple li.selected span i, .select-all.selected span i, .select-all.partial span i { */
-.optWrapper.multiple li.selected span i {
-    background: #2660ac url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAYAAAD+Bd/7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAABMSURBVAiZfc0xDkAAFIPhd2Kr1WRjcAExuIgzGUTIZ/AkImjSofnbNBAfHvzAHjOKNzhiQ42IDFXCDivaaxAJd0xYshT3QqBxqnxeHvhunpu23xnmAAAAAElFTkSuQmCC') 50% no-repeat;
+.multiple .selected span i {
+    background: $mid-blue url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAYAAAD+Bd/7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAABMSURBVAiZfc0xDkAAFIPhd2Kr1WRjcAExuIgzGUTIZ/AkImjSofnbNBAfHvzAHjOKNzhiQ42IDFXCDivaaxAJd0xYshT3QqBxqnxeHvhunpu23xnmAAAAAElFTkSuQmCC') 50% no-repeat;
     box-shadow: none;
     border-color: transparent;
 }

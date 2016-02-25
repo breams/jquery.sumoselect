@@ -8,7 +8,7 @@
  * Compressor http://refresh-sf.com/
  */
 
-(function ($) {
+(function ($, window, document, undefined) {
 
     'namespace sumo';
     $.fn.SumoSelect = function (options) {
@@ -120,7 +120,7 @@
 
                     if(!opt.attr('value'))opt.attr('value',opt.val());
 
-                    li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
+                    var li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
                     if (O.is_multi) li.prepend('<span><i></i></span>');
 
                     if (opt[0].disabled)
@@ -134,8 +134,8 @@
                     if (opt.attr('class'))
                         li.addClass(opt.attr('class'));
 
-                    ul = O.optDiv.children('ul.options');
-                    if (typeof i == "undefined")
+                    var ul = O.optDiv.children('ul.options');
+                    if (i === undefined)
                         ul.append(li);
                     else
                         ul.children('li').eq(i).before(li);
@@ -193,7 +193,7 @@
                         O.optDiv.find('li.selected').removeClass('selected')
 
                         //restore selections from saved state.
-                        for (i = 0; i < O.Pstate.length; i++) {
+                        for (var i = 0; i < O.Pstate.length; i++) {
                             O.E.children('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
                             O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
                         }
@@ -325,7 +325,7 @@
                         // setting sel item to visible view.
                         var ul = O.optDiv.find('ul'),
                             st = ul.scrollTop(),
-                            t = sel.position().top + st;                            
+                            t = sel.position().top + st;
                         if(t >= st + ul.height()-sel.outerHeight())
                             ul.scrollTop(t - ul.height() + sel.outerHeight());
                         if(t<st)
@@ -413,7 +413,7 @@
                     if (O.is_multi) {
                         sels = O.E.children(':selected').not(':disabled'); //selected options.
 
-                        for (i = 0; i < sels.length; i++) {
+                        for (var i = 0; i < sels.length; i++) {
                                 if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
                                     if (sels.length == O.E.find('option').length && settings.captionFormatAllSelected) {
                                         O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length);
@@ -431,7 +431,7 @@
                         O.placeholder = O.E.children(':selected').not(':disabled').text();
                     }
 
-                    is_placeholder = false;
+                    var is_placeholder = false;
 
                     if (!O.placeholder) {
 
@@ -452,7 +452,7 @@
                     O.caption.html(O.placeholder);
 
                     //set the hidden field if post as csv is true.
-                    csvField = O.select.find('input.HEMANT123');
+                    var csvField = O.select.find('input.HEMANT123');
                     if (csvField.length) csvField.val(O.getSelStr());
 
                     //add class placeholder if its a placeholder text.
@@ -463,10 +463,10 @@
                 isMobile: function () {
 
                     // Adapted from http://www.detectmobilebrowsers.com
-                    var ua = navigator.userAgent || navigator.vendor || window.opera;
+                    var ua = (navigator.userAgent || "").toLowerCase();
 
                     // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
-                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.toString().toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
+                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return true;
                     return false;
                 },
 
@@ -576,18 +576,18 @@
 
                 //## add a new option to select at a given index.
                 add: function (val, txt, i) {
-                    if (typeof val == "undefined") throw "No value to add"
+                    if (val === undefined) throw "No value to add"
 
                     var O = this;
                     opts=O.E.children('option')
                     if (typeof txt == "number") { i = txt; txt = val; }
-                    if (typeof txt == "undefined") { txt = val; }
+                    if (txt === undefined) { txt = val; }
 
                     opt = $("<option></option>").val(val).html(txt);
 
                     if (opts.length < i) throw "index out of bounds"
 
-                    if (typeof i == "undefined" || opts.length == i) { // add it to the last if given index is last no or no index provides.
+                    if (i === undefined || opts.length == i) { // add it to the last if given index is last no or no index provides.
                         O.E.append(opt);
                         if(!O.mob)O.createLi(opt);
                     }
@@ -651,4 +651,4 @@
     };
 
 
-}(jQuery));
+}(jQuery, window, document));

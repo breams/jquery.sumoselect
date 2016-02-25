@@ -8,31 +8,35 @@
 
 /* Filtering style */
 
-.search-txt {
-    display: none;
-    outline: none;
-}
+// .hidden {
+//     display: none;
+// }
 
-.no-match {
-    display: none;
-    padding: 6px;
-}
+// .search-txt {
+//     display: none;
+//     outline: none;
+// }
 
-.open .search-txt {
-    @extend %display-inline-block-common;
-    @extend %pos-absolute-common;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin: 0;
-    padding: 5px 8px;
-    border: none;
-    border-radius: 5px;
-}
+// .no-match {
+//     display: none;
+//     padding: 6px;
+// }
 
-.SumoSelect.open .search span, .SumoSelect.open .search label {
-    visibility: hidden;
-}
+// .open .search-txt {
+//     @extend %display-inline-block-common;
+//     @extend %pos-absolute-common;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     margin: 0;
+//     padding: 5px 8px;
+//     border: none;
+//     border-radius: 5px;
+// }
+
+// .SumoSelect.open .search span, .SumoSelect.open .search label {
+//     visibility: hidden;
+// }
 
 
 /*this is applied on that hidden select. DO NOT USE display:none; or visiblity:hidden; and Do not override any of these properties. */
@@ -63,7 +67,7 @@
     outline: none;
 }
 
-.SumoSelect:focus .CaptionCont, .SumoSelect:hover .CaptionCont, .SumoSelect.open .CaptionCont {
+.SumoSelect:focus .CaptionCont, .SumoSelect.open .CaptionCont {
     box-shadow: 0 0 2px #7799d0;
     border-color: #7799d0;
 }
@@ -167,7 +171,7 @@
     overflow: auto;
     border-top: 1px solid #dddddd;
     /*Set the height of pop up here (only for desktop mode)*/
-    max-height: 250px;
+    max-height: 235px;
     /*height*/
 }
 
@@ -260,7 +264,8 @@
     cursor: pointer;
 }
 
-.optWrapper.multiple li span, .select-all span {
+/* .optWrapper.multiple li span, .select-all span { */
+.optWrapper.multiple li span {
     position: absolute;
     display: block;
     width: 30px;
@@ -335,7 +340,8 @@
     padding-bottom: 43px;
 }
 
-.optWrapper.multiple li.selected span i, .select-all.selected span i, .select-all.partial span i {
+/* .optWrapper.multiple li.selected span i, .select-all.selected span i, .select-all.partial span i { */
+.optWrapper.multiple li.selected span i {
     background: #2660ac url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAYAAAD+Bd/7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAABMSURBVAiZfc0xDkAAFIPhd2Kr1WRjcAExuIgzGUTIZ/AkImjSofnbNBAfHvzAHjOKNzhiQ42IDFXCDivaaxAJd0xYshT3QqBxqnxeHvhunpu23xnmAAAAAElFTkSuQmCC') 50% no-repeat;
     box-shadow: none;
     border-color: transparent;
@@ -344,10 +350,10 @@
 
 /*disabled state*/
 
-.SumoSelect.disabled {
-    opacity: 0.7;
-    cursor: default;
-}
+// .SumoSelect.disabled {
+//     opacity: 0.7;
+//     cursor: default;
+// }
 
 .SumoSelect.disabled .CaptionCont {
     border-color: #dddddd;
@@ -355,10 +361,13 @@
     box-shadow: none;
 }
 
+.SumoSelect.disabled .CaptionCont label {
+    opacity: 0.7;
+}
 
 /**Select all button**/
 
-.select-all {
+/* .select-all {
     border-radius: 3px 3px 0 0;
     position: relative;
     border-bottom: 1px solid #dddddd;
@@ -373,12 +382,12 @@
 
 .select-all.partial span i {
     background-color: #cccccc;
-}
+} */
 
 
 /*styling for optgroups*/
 
-.optWrapper li.optGroup {
+/* .optWrapper li.optGroup {
     padding-left: 5px;
     text-decoration: underline;
-}
+} */
